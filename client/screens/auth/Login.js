@@ -3,9 +3,8 @@ import React, { useState } from "react";
 import InputField from "../../components/Forms/InputField";
 import SubmitButton from "../../components/Forms/SubmitButton";
 
-const Register = ({ navigation }) => {
+const Login = ({ navigation }) => {
   // states
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -13,7 +12,7 @@ const Register = ({ navigation }) => {
   // handle submit
   const handleSubmit = () => {
     try {
-      if (!name || !email || !password) {
+      if (!email || !password) {
         return Alert.alert("Please fill fields");
       } else {
         setLoading(true);
@@ -29,20 +28,13 @@ const Register = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor={"#F27676"} />
-      <Text style={styles.pageTitle}>Create Account</Text>
+      <Text style={styles.pageTitle}>Login</Text>
       <Text style={{ textAlign: "center", color: "gray" }}>
-        Create a new Account
+        Please login to continue
       </Text>
 
       {/* form */}
       <View style={styles.form}>
-        <InputField
-          label={"Name*"}
-          placeholder={"Your name"}
-          autoComplete={"name"}
-          value={name}
-          setValue={setName}
-        />
         <InputField
           label={"Email*"}
           placeholder={"Your email"}
@@ -53,7 +45,7 @@ const Register = ({ navigation }) => {
         />
         <InputField
           label={"Password*"}
-          placeholder={"New password"}
+          placeholder={"Enter your password"}
           autoComplete={"password"}
           secureTextEntry={true}
           value={password}
@@ -61,20 +53,20 @@ const Register = ({ navigation }) => {
         />
       </View>
 
-      {/* Sign in button */}
+      {/* Login in button */}
       <SubmitButton
-        text={"SIGN UP"}
+        text={"Login"}
         loading={loading}
         handleSubmit={handleSubmit}
       />
 
       <Text style={{ textAlign: "center", marginTop: 10 }}>
-        Already have an account?{" "}
+        Don't have an account?{" "}
         <Text
           style={{ color: "#F27676" }}
-          onPress={() => navigation.navigate("Login")}
+          onPress={() => navigation.navigate("Register")}
         >
-          Login
+          Sign up
         </Text>
       </Text>
     </View>
@@ -103,4 +95,5 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.5,
   },
 });
-export default Register;
+
+export default Login;
