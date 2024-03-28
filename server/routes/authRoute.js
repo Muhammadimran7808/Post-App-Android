@@ -1,5 +1,5 @@
 import express from "express";
-import { registerController } from "../controllers/authController.js";
+import { loginController, registerController } from "../controllers/authController.js";
 
 // roter object
 const router = express.Router();
@@ -8,6 +8,9 @@ const router = express.Router();
 
 // REGISTER || METHOD POST
 router.post("/register", registerController);
+
+// LOGIN
+router.post("/login", loginController);
 
 
 

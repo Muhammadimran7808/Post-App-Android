@@ -1,4 +1,6 @@
 import userModel from "../models/userModel.js";
+import { comparePassword, hashPassword } from "../helpers/authHelper.js";
+import JWT from "jsonwebtoken";
 
 // --------registor controller-------
 
@@ -28,12 +30,12 @@ export const registerController = async (req, res) => {
     }
 
     // hashing password
-    // const hashedPassword = await hashPassword(password);
-    // save
+    const hashedPassword = await hashPassword(password);
+    // save user
     const user = await new userModel({
       name,
       email,
-      password,
+      password: hashedPassword,
     }).save();
 
     res.status(201).send({
@@ -45,6 +47,58 @@ export const registerController = async (req, res) => {
     res.status(500).send({
       success: false,
       message: "Error in registration",
+      error,
+    });
+  }
+};
+
+// --------login controller-------
+export const loginController = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    // validation
+    if (!email) {
+      return res.send({ message: "email is required" });
+    }
+    if (!password) {
+      return res.send({ message: "password is required" });
+    }
+
+    // check existing user
+    const existingUser = await userModel.findOne({ email: email });
+    if (!existingUser) {
+      return res.status(500).send({
+        success: false,
+        message: "This email is not register. Please register",
+      });
+    }
+
+    // match password
+    const isMatch = await comparePassword(password, existingUser.password);
+    if (!isMatch) {
+      return res.status(500).send({
+        success: false,
+        message: "Invalid email or password",
+      });
+    }
+
+    // generate token
+    const token = JWT.sign({ _id: existingUser._id }, process.env.JWT_SECRET, {
+      expiresIn: "2d",
+    });
+    // undefined password
+    existingUser.password = undefined;
+    res.status(200).send({
+      success: true,
+      message: "login successfully",
+      token,
+      existingUser,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in login",
       error,
     });
   }
