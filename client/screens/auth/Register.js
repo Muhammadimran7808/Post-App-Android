@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Alert, StatusBar } from "react-native";
 import React, { useState } from "react";
 import InputField from "../../components/Forms/InputField";
 import SubmitButton from "../../components/Forms/SubmitButton";
+import axios from "axios";
 
 const Register = ({ navigation }) => {
   // states
@@ -11,16 +12,25 @@ const Register = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
   // handle submit
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     try {
       if (!name || !email || !password) {
         return Alert.alert("Please fill fields");
       } else {
         setLoading(true);
-        // call your api here
-        setTimeout(() => {}, 3000);
+        // api
+        const { data } = await axios.post(
+          "http://192.168.201.45:8080/api/v1/auth/register",
+          {
+            name,
+            email,
+            password,
+          }
+        );
+        Alert.alert(data && data.message);
       }
     } catch (error) {
+      Alert.alert(error.response.data.message);
       console.log(error);
     }
     setLoading(false);

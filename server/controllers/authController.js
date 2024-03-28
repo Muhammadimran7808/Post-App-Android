@@ -40,7 +40,7 @@ export const registerController = async (req, res) => {
 
     res.status(201).send({
       success: true,
-      message: "User Register successfully",
+      message: "Register successfully. Please login",
     });
   } catch (error) {
     console.log(error);
