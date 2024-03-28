@@ -1,6 +1,5 @@
 import userModel from "../models/userModel.js";
 
-
 // --------registor controller-------
 
 export const registerController = async (req, res) => {
@@ -30,12 +29,12 @@ export const registerController = async (req, res) => {
 
     // hashing password
     // const hashedPassword = await hashPassword(password);
-    // // save
-    // const user = await new userModel({
-    //   name,
-    //   email,
-    //   password: hashedPassword,
-    // }).save();
+    // save
+    const user = await new userModel({
+      name,
+      email,
+      password,
+    }).save();
 
     res.status(201).send({
       success: true,
