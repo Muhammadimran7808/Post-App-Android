@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Alert, StatusBar } from "react-native";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import React, { useState } from "react";
 import InputField from "../../components/Forms/InputField";
 import SubmitButton from "../../components/Forms/SubmitButton";
@@ -19,15 +19,13 @@ const Register = ({ navigation }) => {
       } else {
         setLoading(true);
         // api
-        const { data } = await axios.post(
-          "http://192.168.201.45:8080/api/v1/auth/register",
-          {
-            name,
-            email,
-            password,
-          }
-        );
+        const { data } = await axios.post("/auth/register", {
+          name,
+          email,
+          password,
+        });
         Alert.alert(data && data.message);
+        navigation.navigate("Login")
       }
     } catch (error) {
       Alert.alert(error.response.data.message);
@@ -38,7 +36,6 @@ const Register = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={"#F27676"} />
       <Text style={styles.pageTitle}>Create Account</Text>
       <Text style={{ textAlign: "center", color: "gray" }}>
         Create a new Account

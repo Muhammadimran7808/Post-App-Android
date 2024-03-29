@@ -1,11 +1,14 @@
-import { View, Text, StyleSheet, Alert, StatusBar } from "react-native";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import React, { useState } from "react";
 import InputField from "../../components/Forms/InputField";
 import SubmitButton from "../../components/Forms/SubmitButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAuth } from "../../context/authContext";
 import axios from "axios";
 
 const Login = ({ navigation }) => {
+  // global state
+  const [state, setState] = useAuth();
   // states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,16 +22,15 @@ const Login = ({ navigation }) => {
       } else {
         setLoading(true);
         // api
-        const { data } = await axios.post(
-          "http://192.168.201.45:8080/api/v1/auth/login",
-          {
-            email,
-            password,
-          }
-        );
+        const { data } = await axios.post("/auth/login", {
+          email,
+          password,
+        });
+        setState(data); //set data in lobal state
         // adding user info in local storage
         await AsyncStorage.setItem("@auth", JSON.stringify(data));
         Alert.alert(data && data.message);
+        navigation.navigate("Home");
       }
     } catch (error) {
       Alert.alert(error.response.data.message);
@@ -38,16 +40,15 @@ const Login = ({ navigation }) => {
   };
 
   // temp function to check local storage data
-  // const getLocalStorageData = async () => {
-  //   const data = await AsyncStorage.getItem("@auth");
-  //   console.log("local storage data ==> ", data);
-  // };
+  const getLocalStorageData = async () => {
+    const data = await AsyncStorage.getItem("@auth");
+    console.log("local storage data ==> ", data);
+  };
 
-  // getLocalStorageData();
+  getLocalStorageData();
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={"#F27676"} />
       <Text style={styles.pageTitle}>Login</Text>
       <Text style={{ textAlign: "center", color: "gray" }}>
         Please login to continue
