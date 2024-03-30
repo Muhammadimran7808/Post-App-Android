@@ -26,11 +26,13 @@ const Login = ({ navigation }) => {
           email,
           password,
         });
-        setState(data); //set data in lobal state
-        // adding user info in local storage
-        await AsyncStorage.setItem("@auth", JSON.stringify(data));
-        Alert.alert(data && data.message);
-        navigation.navigate("Home");
+        if (data) {
+          setState(data); //set data in lobal state
+          // adding user info in local storage
+          await AsyncStorage.setItem("@auth", JSON.stringify(data));
+          Alert.alert(data.message);
+          navigation.navigate("Home");
+        }
       }
     } catch (error) {
       Alert.alert(error.response.data.message);
@@ -40,12 +42,12 @@ const Login = ({ navigation }) => {
   };
 
   // temp function to check local storage data
-  const getLocalStorageData = async () => {
-    const data = await AsyncStorage.getItem("@auth");
-    console.log("local storage data ==> ", data);
-  };
+  // const getLocalStorageData = async () => {
+  //   const data = await AsyncStorage.getItem("@auth");
+  //   console.log("local storage data ==> ", data);
+  // };
 
-  getLocalStorageData();
+  // getLocalStorageData();
 
   return (
     <View style={styles.container}>

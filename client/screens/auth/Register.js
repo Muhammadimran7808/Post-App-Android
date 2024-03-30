@@ -25,7 +25,9 @@ const Register = ({ navigation }) => {
           password,
         });
         Alert.alert(data && data.message);
-        navigation.navigate("Login")
+        if(data.success){
+          navigation.navigate("Login");
+        }
       }
     } catch (error) {
       Alert.alert(error.response.data.message);

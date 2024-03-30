@@ -14,7 +14,7 @@ const AuthProvider = ({ children }) => {
   });
 
   // default axios setting
-  axios.defaults.baseURL = "http://192.168.201.45:8080/api/v1";
+  axios.defaults.baseURL = "http://192.168.32.45:8080/api/v1";
 
   //get intial local storage data
   useEffect(() => {
@@ -22,7 +22,8 @@ const AuthProvider = ({ children }) => {
       const data = await AsyncStorage.getItem("@auth");
       if (data) {
         const parseData = JSON.parse(data);
-        setState({ ...state, user: parseData?.existingUser, token: parseData?.token });
+        console.log(parseData);
+        setState({ ...state, user: parseData?.user, token: parseData?.token });
       }
     };
     getLocalStorageData();

@@ -36,19 +36,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     backgroundColor: "#F27676",
-    paddingHorizontal: 10,
-    paddingVertical: 15,
+    paddingVertical: 8,
   },
 
   footerItem: {
     color: "white",
-    fontSize: 17,
+    fontSize: 13,
   },
 
   icon: {
     marginBottom: 3,
     alignSelf: "center",
-    fontSize: 25,
+    fontSize: 22,
     color: "white",
   },
 });

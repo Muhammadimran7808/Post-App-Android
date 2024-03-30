@@ -64,9 +64,9 @@ export const loginController = async (req, res) => {
       return res.send({ message: "password is required" });
     }
 
-    // check existing user
-    const existingUser = await userModel.findOne({ email: email });
-    if (!existingUser) {
+    // check user already exist or not
+    const user = await userModel.findOne({ email: email });
+    if (!user) {
       return res.status(500).send({
         success: false,
         message: "This email is not register. Please register",
@@ -74,7 +74,7 @@ export const loginController = async (req, res) => {
     }
 
     // match password
-    const isMatch = await comparePassword(password, existingUser.password);
+    const isMatch = await comparePassword(password, user.password);
     if (!isMatch) {
       return res.status(500).send({
         success: false,
@@ -83,16 +83,16 @@ export const loginController = async (req, res) => {
     }
 
     // generate token
-    const token = JWT.sign({ _id: existingUser._id }, process.env.JWT_SECRET, {
+    const token = JWT.sign({ _id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "2d",
     });
     // undefined password
-    existingUser.password = undefined;
+    user.password = undefined;
     res.status(200).send({
       success: true,
       message: "login successfully",
       token,
-      existingUser,
+      user,
     });
   } catch (error) {
     console.log(error);
