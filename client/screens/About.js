@@ -4,16 +4,19 @@ import FooterMenu from "../components/Menus/FooterMenu";
 
 const About = () => {
   return (
-    <View style={styles.container}>
-      <Text>Home</Text>
-      <FooterMenu />
-    </View>
+    <>
+      <View style={styles.container}>
+        <Text>Home</Text>
+      </View>
+        <FooterMenu />
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     height: "100%",
+    padding: 10,
   },
 });
 

@@ -22,7 +22,7 @@ const AuthProvider = ({ children }) => {
       const data = await AsyncStorage.getItem("@auth");
       if (data) {
         const parseData = JSON.parse(data);
-        console.log(parseData);
+        // console.log(parseData);
         setState({ ...state, user: parseData?.user, token: parseData?.token });
       }
     };

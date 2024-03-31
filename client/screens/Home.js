@@ -6,17 +6,20 @@ import FooterMenu from "../components/Menus/FooterMenu";
 const Home = () => {
   const [state] = useAuth();
   return (
-    <View style={styles.container}>
-      <Text>Home</Text>
-      <Text>{JSON.stringify(state, null, 4)}</Text>
+    <>
+      <View style={styles.container}>
+        <Text>Home</Text>
+        <Text>{JSON.stringify(state, null, 4)}</Text>
+      </View>
       <FooterMenu />
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     height: "100%",
+    padding: 10,
   },
 });
 export default Home;
