@@ -5,6 +5,9 @@ import Register from "../../screens/auth/Register";
 import Login from "../../screens/auth/Login";
 import { useAuth } from "../../context/authContext";
 import HeaderMenu from "./HeaderMenu";
+import Post from "../../screens/Post";
+import About from "../../screens/About";
+import Account from "../../screens/Account";
 
 const ScreenMenu = () => {
   const Stack = createNativeStackNavigator();
@@ -15,14 +18,43 @@ const ScreenMenu = () => {
   return (
     <Stack.Navigator initialRouteName="Login">
       {authenticatedUser ? (
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{
-            title: "Full Stack App",
-            headerRight: () => <HeaderMenu />,
-          }}
-        />
+        <>
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{
+              title: "Full Stack App",
+              headerRight: () => <HeaderMenu />,
+            }}
+          />
+
+          <Stack.Screen
+            name="Post"
+            component={Post}
+            options={{
+              headerBackTitle: "back",
+              headerRight: () => <HeaderMenu />,
+            }}
+          />
+
+          <Stack.Screen
+            name="About"
+            component={About}
+            options={{
+              headerBackTitle: "back",
+              headerRight: () => <HeaderMenu />,
+            }}
+          />
+
+          <Stack.Screen
+            name="Account"
+            component={Account}
+            options={{
+              headerBackTitle: "back",
+              headerRight: () => <HeaderMenu />,
+            }}
+          />
+        </>
       ) : (
         <>
           <Stack.Screen

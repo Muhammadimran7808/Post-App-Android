@@ -103,3 +103,41 @@ export const loginController = async (req, res) => {
     });
   }
 };
+
+// --------update profile controller-------
+export const updateProfileController = async (req, res) => {
+  try {
+    const { name, password, email } = req.body;
+    // find user
+    const user = await userModel.findOne({ email });
+
+    // validation
+    if (password && password.length < 6) {
+      return res.send({ message: "password must be 6 characters long" });
+    }
+
+    // hashing password
+    const hashedPassword = password ? await hashPassword(password) : undefined;
+
+    // update user
+    const updatedUser = await userModel.findOneAndUpdate(
+      { email },
+      { name: name || user.name, password: hashedPassword || user.password },
+      { new: true }
+    );
+
+    updatedUser.password = undefined;
+    res.status(200).send({
+      success: true,
+      message: "Profile updated successfully",
+      updatedUser,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in updating profile",
+      error,
+    });
+  }
+};
