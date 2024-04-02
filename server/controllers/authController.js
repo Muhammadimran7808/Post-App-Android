@@ -1,9 +1,18 @@
 import userModel from "../models/userModel.js";
 import { comparePassword, hashPassword } from "../helpers/authHelper.js";
 import JWT from "jsonwebtoken";
+import { expressjwt } from "express-jwt";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+// middleware
+export const requireSignIn = expressjwt({
+  secret: process.env.JWT_SECRET,
+  algorithms: ["HS256"],
+});
 
 // --------registor controller-------
-
 export const registerController = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -129,7 +138,7 @@ export const updateProfileController = async (req, res) => {
     updatedUser.password = undefined;
     res.status(200).send({
       success: true,
-      message: "Profile updated successfully",
+      message: "Profile updated. Please login agains",
       updatedUser,
     });
   } catch (error) {

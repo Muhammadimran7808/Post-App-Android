@@ -15,7 +15,7 @@ import axios from "axios";
 const Account = () => {
   // global state
   const [state, setState] = useAuth();
-  const { user } = state;
+  const { user, token } = state;
   // local state
   const [name, setName] = useState(user?.name);
   const [email] = useState(user?.email);
@@ -31,7 +31,7 @@ const Account = () => {
         email,
         password,
       });
-      if(data?.success){
+      if (data?.success) {
         let UD = JSON.stringify(data);
         setState({ ...state, user: UD?.updatedUser });
       }

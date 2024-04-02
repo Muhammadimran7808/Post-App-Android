@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import React from "react";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { useAuth } from "../../context/authContext";
@@ -10,9 +10,17 @@ const HeaderMenu = () => {
   //   logout
   const handleLogout = async () => {
     try {
-      setState({ user: null, token: "" });
-      await AsyncStorage.removeItem("@auth");
-      alert("Logout Successfully")
+      Alert.alert("Confirmation", "Are you sure want to logout?", [
+        {
+          text: "Yes",
+          onPress: async () => {
+            setState({ user: null, token: "" });
+            await AsyncStorage.removeItem("@auth");
+            alert("Logout Successfully");
+          },
+        },
+        { text: "Cancel",},
+      ]);
     } catch (error) {
       console.log(error);
     }
