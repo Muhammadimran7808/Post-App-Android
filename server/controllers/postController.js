@@ -21,7 +21,6 @@ export const createPostController = async (req, res) => {
       postedBy: req.auth._id,
     }).save();
 
-    console.log(req);
 
     return res.status(201).send({
       success: true,
