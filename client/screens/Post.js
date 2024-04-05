@@ -11,8 +11,11 @@ import React, { useState } from "react";
 import FooterMenu from "../components/Menus/FooterMenu";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import axios from "axios";
+import { usePost } from "../context/postContext";
 
 const Post = ({ navigation }) => {
+  // global state
+  const [posts, setPosts] = usePost();
   // local state
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -30,6 +33,7 @@ const Post = ({ navigation }) => {
         description,
       });
       Alert.alert(data?.message);
+      setPosts([data?.post, ...posts]);
       setTitle("");
       setDescription("");
       setLoading(false);

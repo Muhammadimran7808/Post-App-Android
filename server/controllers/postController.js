@@ -21,11 +21,29 @@ export const createPostController = async (req, res) => {
       postedBy: req.auth._id,
     }).save();
 
-
     return res.status(201).send({
       success: true,
       message: "Post created successfully",
       post,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
+
+export const getAllPostController = async (req,res) => {
+  try {
+    const posts = await postModel
+      .find()
+      .populate("postedBy", "_id name")
+      .sort({ createdAt: -1 });
+    return res.status(200).send({
+      success: true,
+      posts,
     });
   } catch (error) {
     console.log(error);
