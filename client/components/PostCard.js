@@ -3,8 +3,8 @@ import React from "react";
 import Entypo from "react-native-vector-icons/Entypo";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+
 import moment from "moment";
-import Icon from "react-native-vector-icons/Entypo";
 
 const PostCard = ({ posts }) => {
   return (
@@ -12,6 +12,7 @@ const PostCard = ({ posts }) => {
       <View style={styles.postContainer}>
         {posts?.map((post, i) => (
           <View key={i} style={styles.postCard}>
+            {/* user details like name and post upload time */}
             <View style={styles.user}>
               <Image
                 style={{ width: 35, height: 35 }}
@@ -23,18 +24,18 @@ const PostCard = ({ posts }) => {
                 {/* name and option */}
                 <View
                   style={{
-                    width: "90%",
+                    width: "93%",
                     flexDirection: "row",
                     justifyContent: "space-between",
                     paddingRight: 7,
-                    backgroundColor: "red",
+                    // backgroundColor: "red",
                     height: 25,
                   }}
                 >
                   <Text style={{ fontWeight: 900, fontSize: 16 }}>
                     {post.postedBy.name}
                   </Text>
-                  {/* options */}
+                  {/* 3 dot and cross */}
                   <View
                     style={{
                       flexDirection: "row",
@@ -50,14 +51,43 @@ const PostCard = ({ posts }) => {
                   </View>
                 </View>
                 {/* post time */}
-                <View style={{flexDirection:"row", gap:10}}>
+                <View style={{ flexDirection: "row", gap: 8 }}>
                   <Text>{moment(post.createdAt).fromNow()}</Text>
                   <MaterialIcons name="public" style={{ fontSize: 18 }} />
                 </View>
               </View>
             </View>
-            <Text style={styles.title}>{post.title}</Text>
-            <Text style={styles.description}>{post.description}</Text>
+            {/* post content */}
+            <View
+              style={{
+                paddingVertical: 12,
+                borderBottomWidth: 1,
+                borderBottomColor: "lightgray",
+              }}
+            >
+              <Text style={styles.description}>{post.description}</Text>
+            </View>
+            {/* like comment and share */}
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginTop: 10,
+              }}
+            >
+              <View style={{ flexDirection: "row", gap: 10 }}>
+                <AntDesign name="like2" style={{ fontSize: 22 }} />
+                <Text>Like</Text>
+              </View>
+              <View style={{ flexDirection: "row", gap: 10 }}>
+                <AntDesign name="message1" style={{ fontSize: 22 }} />
+                <Text>Comment</Text>
+              </View>
+              <View style={{ flexDirection: "row", gap: 10 }}>
+                <AntDesign name="sharealt" style={{ fontSize: 22 }} />
+                <Text>Share</Text>
+              </View>
+            </View>
           </View>
         ))}
       </View>
@@ -77,6 +107,7 @@ const styles = StyleSheet.create({
   user: {
     flexDirection: "row",
     gap: 8,
+    marginBottom: 5
   },
 
   heading: {
