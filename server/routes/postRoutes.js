@@ -2,6 +2,7 @@ import express from "express";
 import { requireSignIn } from "../controllers/authController.js";
 import {
   createPostController,
+  deletePostController,
   getAllPostController,
   getAllUserPostController,
 } from "../controllers/postController.js";
@@ -16,5 +17,8 @@ router.get("/all-posts", getAllPostController);
 
 // GET User's POST
 router.get("/user-posts", requireSignIn, getAllUserPostController);
+
+// DELETE POST
+router.delete("/delete-post/:id", requireSignIn, deletePostController);
 
 export default router;

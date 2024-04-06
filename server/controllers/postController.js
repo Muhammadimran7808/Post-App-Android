@@ -72,3 +72,27 @@ export const getAllUserPostController = async (req, res) => {
     });
   }
 };
+
+export const deletePostController = async (req, res) => {
+  try {
+    const post = await postModel.findOne({ _id: req.params.id });
+
+    if (post.postedBy.toString() !== req.auth._id.toString()) {
+      return res.status(401).send({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
+    await post.remove();
+    return res.status(200).send({
+      success: true,
+      message: "Post deleted successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
