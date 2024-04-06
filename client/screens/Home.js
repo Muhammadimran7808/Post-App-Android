@@ -5,7 +5,7 @@ import { usePost } from "../context/postContext";
 import PostCard from "../components/PostCard";
 
 const Home = () => {
-  const [posts, setPosts] = usePost();
+  const [posts] = usePost();
   return (
     <>
       <ScrollView>

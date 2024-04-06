@@ -35,7 +35,7 @@ export const createPostController = async (req, res) => {
   }
 };
 
-export const getAllPostController = async (req,res) => {
+export const getAllPostController = async (req, res) => {
   try {
     const posts = await postModel
       .find()
@@ -44,6 +44,25 @@ export const getAllPostController = async (req,res) => {
     return res.status(200).send({
       success: true,
       posts,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
+
+export const getAllUserPostController = async (req, res) => {
+  try {
+    const userPosts = await postModel
+      .find({ postedBy: req.auth._id })
+      .populate("postedBy", "_id name")
+      .sort({ createdAt: -1 });
+    return res.status(200).send({
+      success: true,
+      userPosts,
     });
   } catch (error) {
     console.log(error);

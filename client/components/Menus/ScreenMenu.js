@@ -6,7 +6,7 @@ import Login from "../../screens/auth/Login";
 import { useAuth } from "../../context/authContext";
 import HeaderMenu from "./HeaderMenu";
 import Post from "../../screens/Post";
-import About from "../../screens/About";
+import MyPosts from "../../screens/MyPosts";
 import Account from "../../screens/Account";
 
 const ScreenMenu = () => {
@@ -38,8 +38,8 @@ const ScreenMenu = () => {
           />
 
           <Stack.Screen
-            name="About"
-            component={About}
+            name="MyPosts"
+            component={MyPosts}
             options={{
               headerBackTitle: "back",
               headerRight: () => <HeaderMenu />,

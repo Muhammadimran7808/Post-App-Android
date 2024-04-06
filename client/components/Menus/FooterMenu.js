@@ -35,14 +35,14 @@ const FooterMenu = () => {
 
       <TouchableOpacity
         style={{ paddingHorizontal: 8 }}
-        onPress={() => navigation.navigate("About")}
+        onPress={() => navigation.navigate("MyPosts")}
       >
         <FontAwesome5
-          name="info-circle"
+          name="list"
           style={styles.icon}
-          color={route.name === "About" ? "white" : "#d1d1d1"}
+          color={route.name === "MyPosts" ? "white" : "#d1d1d1"}
         />
-        <Text style={styles.footerItem}>About</Text>
+        <Text style={styles.footerItem}>My Posts</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
