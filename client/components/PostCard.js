@@ -1,12 +1,67 @@
-import { View, Text, StyleSheet, Image } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
+import React, { useState } from "react";
 import Entypo from "react-native-vector-icons/Entypo";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import Model from "react-native-modal";
+import axios from "axios";
 
 import moment from "moment";
 
-const PostCard = ({ posts }) => {
+const PostCard = ({ posts, myPost }) => {
+  // local state
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  // toggle model
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+  // #region delete prompt
+  const deletePrompt = (id) => {
+    Alert.alert(
+      "Delete Post?",
+      "Are you sure you want to delete this post?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => {},
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            handleDeletePost(id);
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+  // #endregion
+  //#region delete post
+  const handleDeletePost = async (id) => {
+    try {
+      setLoading(true);
+      const { data } = await axios.delete(`/post/delete-post/${id}`);
+      alert(data?.message);
+      // getUserPosts();
+      setLoading(false);
+      toggleModal();
+    } catch (error) {
+      console.error(error);
+      alert(error);
+      setLoading(false);
+    }
+  };
+  //#endregion
+
   return (
     <>
       <View style={styles.postContainer}>
@@ -43,10 +98,78 @@ const PostCard = ({ posts }) => {
                       alignItems: "center",
                     }}
                   >
-                    <Entypo
-                      name="dots-three-horizontal"
-                      style={{ fontSize: 18 }}
-                    />
+                    {/* this dots show only on user's own post */}
+                    {myPost && (
+                      <TouchableOpacity onPress={toggleModal}>
+                        <Entypo
+                          name="dots-three-horizontal"
+                          style={{ fontSize: 22 }}
+                        />
+                        <Model
+                          isVisible={isModalVisible}
+                          onSwipeComplete={() => toggleModal()}
+                          swipeDirection="down"
+                          onBackdropPress={() => toggleModal()}
+                          hideModalContentWhileAnimating={true}
+                          backdropOpacity={0.1}
+                          style={{ margin: 0 }}
+                        >
+                          <View style={styles.modelContainer}>
+                            {/*Model Options*/}
+                            <View style={styles.modelContent}>
+                              {/* edit post */}
+                              <TouchableOpacity style={styles.modelOptions}>
+                                <AntDesign
+                                  name="edit"
+                                  style={{ fontSize: 22 }}
+                                />
+                                <Text style={{ fontSize: 16 }}>Edit</Text>
+                              </TouchableOpacity>
+                              {/* delete post */}
+                              <TouchableOpacity
+                                style={styles.modelOptions}
+                                onPress={()=>deletePrompt(post._id)}
+                              >
+                                <AntDesign
+                                  name="delete"
+                                  style={{ fontSize: 22 }}
+                                />
+                                <View>
+                                  <Text style={{ fontSize: 16 }}>Delete</Text>
+                                  <Text style={{ fontSize: 12, color: "gray" }}>
+                                    This will delete your post permanently
+                                  </Text>
+                                </View>
+                              </TouchableOpacity>
+                              {/* pin post */}
+                              <TouchableOpacity style={styles.modelOptions}>
+                                <AntDesign
+                                  name="pushpino"
+                                  style={{ fontSize: 22 }}
+                                />
+                                <Text style={{ fontSize: 16 }}>Pin post</Text>
+                              </TouchableOpacity>
+                              {/* save post */}
+                              <TouchableOpacity style={styles.modelOptions}>
+                                <AntDesign
+                                  name="save"
+                                  style={{ fontSize: 22 }}
+                                />
+                                <View>
+                                  <Text style={{ fontSize: 16 }}>
+                                    Save post
+                                  </Text>
+                                  <Text style={{ fontSize: 12, color: "gray" }}>
+                                    Add this to your saved items
+                                  </Text>
+                                </View>
+                              </TouchableOpacity>
+                            </View>
+                          </View>
+                        </Model>
+                      </TouchableOpacity>
+                    )}
+
                     <AntDesign name="close" style={{ fontSize: 22 }} />
                   </View>
                 </View>
@@ -107,7 +230,7 @@ const styles = StyleSheet.create({
   user: {
     flexDirection: "row",
     gap: 8,
-    marginBottom: 5
+    marginBottom: 5,
   },
 
   heading: {
@@ -123,6 +246,29 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 16,
     marginBottom: 10,
+  },
+  modelContainer: {
+    backgroundColor: "#f0f0f0",
+    paddingVertical: 24,
+    paddingHorizontal: 12,
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+    height: 400,
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+  },
+  modelContent: {
+    backgroundColor: "white",
+    padding: 10,
+    borderRadius: 6,
+    height: "100%",
+  },
+  modelOptions: {
+    flexDirection: "row",
+    gap: 10,
+    alignItems: "center",
+    paddingVertical: 10,
   },
 });
 

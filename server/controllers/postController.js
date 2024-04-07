@@ -83,7 +83,7 @@ export const deletePostController = async (req, res) => {
         message: "Unauthorized",
       });
     }
-    await post.remove();
+    await postModel.findOneAndDelete({ _id: req.params.id });
     return res.status(200).send({
       success: true,
       message: "Post deleted successfully",

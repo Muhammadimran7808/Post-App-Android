@@ -5,11 +5,11 @@ import axios from "axios";
 import PostCard from "../components/PostCard";
 
 const MyPosts = () => {
+  // local states
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
 
   // get user post
-
   const getUserPosts = async () => {
     try {
       setLoading(true);
@@ -36,7 +36,7 @@ const MyPosts = () => {
               Loading...
             </Text>
           ) : (
-            <PostCard posts={posts} />
+            <PostCard posts={posts} myPost={true}/>
           )}
         </View>
       </ScrollView>
