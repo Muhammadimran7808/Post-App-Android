@@ -12,10 +12,9 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Model from "react-native-modal";
 import axios from "axios";
-
 import moment from "moment";
 
-const PostCard = ({ posts, myPost }) => {
+const PostCard = ({ posts, myPost, getUserPosts }) => {
   // local state
   const [isModalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -51,7 +50,7 @@ const PostCard = ({ posts, myPost }) => {
       setLoading(true);
       const { data } = await axios.delete(`/post/delete-post/${id}`);
       alert(data?.message);
-      // getUserPosts();
+      getUserPosts();
       setLoading(false);
       toggleModal();
     } catch (error) {
@@ -117,18 +116,21 @@ const PostCard = ({ posts, myPost }) => {
                           <View style={styles.modelContainer}>
                             {/*Model Options*/}
                             <View style={styles.modelContent}>
-                              {/* edit post */}
-                              <TouchableOpacity style={styles.modelOptions}>
+                              {/* ----------edit post--------- */}
+                              <TouchableOpacity style={styles.modelOptions} >
                                 <AntDesign
                                   name="edit"
                                   style={{ fontSize: 22 }}
                                 />
                                 <Text style={{ fontSize: 16 }}>Edit</Text>
                               </TouchableOpacity>
-                              {/* delete post */}
+                              {/* --------delete post---------- */}
                               <TouchableOpacity
                                 style={styles.modelOptions}
-                                onPress={()=>deletePrompt(post._id)}
+                                onPress={() => {
+                                  deletePrompt(post._id);
+                                  // console.log(post._id);
+                                }}
                               >
                                 <AntDesign
                                   name="delete"
@@ -141,7 +143,7 @@ const PostCard = ({ posts, myPost }) => {
                                   </Text>
                                 </View>
                               </TouchableOpacity>
-                              {/* pin post */}
+                              {/* ---------pin post--------- */}
                               <TouchableOpacity style={styles.modelOptions}>
                                 <AntDesign
                                   name="pushpino"
@@ -214,6 +216,23 @@ const PostCard = ({ posts, myPost }) => {
           </View>
         ))}
       </View>
+      {/* loading */}
+      {loading && (
+        <View
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0,0,0,0.5)",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ color: "#fff", fontSize: 24 }}>Please wait...</Text>
+        </View>
+      )}
     </>
   );
 };

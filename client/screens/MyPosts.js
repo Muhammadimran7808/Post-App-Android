@@ -18,7 +18,7 @@ const MyPosts = () => {
       setLoading(false);
     } catch (error) {
       console.error(error);
-      alert(error);
+     alert(error.response.data.message);
       setLoading(false);
     }
   };
@@ -36,7 +36,7 @@ const MyPosts = () => {
               Loading...
             </Text>
           ) : (
-            <PostCard posts={posts} myPost={true}/>
+            <PostCard posts={posts} myPost={true} getUserPosts={getUserPosts} />
           )}
         </View>
       </ScrollView>

@@ -39,6 +39,7 @@ const Post = ({ navigation }) => {
       setLoading(false);
       navigation.navigate("Home");
     } catch (error) {
+      alert(error.response.data.message || error.meesage);
       console.log(error.response.data.message || error.meesage);
       setLoading(false);
     }

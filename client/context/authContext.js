@@ -10,7 +10,7 @@ const AuthProvider = ({ children }) => {
   // global state
   const [state, setState] = useState({
     user: null,
-    token: "",
+  token: "",
   });
 
   // default axios setting
