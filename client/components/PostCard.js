@@ -13,11 +13,14 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Model from "react-native-modal";
 import axios from "axios";
 import moment from "moment";
+import EditPostModal from "./EditPostModal";
 
-const PostCard = ({ posts, myPost, getUserPosts }) => {
+const PostCard = ({ posts, myPostFlag, getUserPosts }) => {
   // local state
   const [isModalVisible, setModalVisible] = useState(false);
+  const [editModalVisible, setEditModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [post, setPost] = useState({});
   // toggle model
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -64,6 +67,15 @@ const PostCard = ({ posts, myPost, getUserPosts }) => {
   return (
     <>
       <View style={styles.postContainer}>
+        {/* Edit post modal */}
+        {myPostFlag && (
+          <EditPostModal
+            editModalVisible={editModalVisible}
+            setEditModalVisible={setEditModalVisible}
+            post={post}
+          />
+        )}
+
         {posts?.map((post, i) => (
           <View key={i} style={styles.postCard}>
             {/* user details like name and post upload time */}
@@ -98,12 +110,13 @@ const PostCard = ({ posts, myPost, getUserPosts }) => {
                     }}
                   >
                     {/* this dots show only on user's own post */}
-                    {myPost && (
+                    {myPostFlag && (
                       <TouchableOpacity onPress={toggleModal}>
                         <Entypo
                           name="dots-three-horizontal"
                           style={{ fontSize: 22 }}
                         />
+                        
                         <Model
                           isVisible={isModalVisible}
                           onSwipeComplete={() => toggleModal()}
@@ -117,7 +130,12 @@ const PostCard = ({ posts, myPost, getUserPosts }) => {
                             {/*Model Options*/}
                             <View style={styles.modelContent}>
                               {/* ----------edit post--------- */}
-                              <TouchableOpacity style={styles.modelOptions} >
+                              <TouchableOpacity
+                                style={styles.modelOptions}
+                                onPress={() => {
+                                  setPost(post);
+                                  setEditModalVisible(true)}}
+                              >
                                 <AntDesign
                                   name="edit"
                                   style={{ fontSize: 22 }}

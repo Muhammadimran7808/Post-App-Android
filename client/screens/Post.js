@@ -51,14 +51,14 @@ const Post = ({ navigation }) => {
           <View>
             <Text style={styles.heading}>Create a post</Text>
             <TextInput
-              style={styles.title}
+              style={styles.input}
               placeholder={"Add post title"}
               value={title}
               onChangeText={(text) => setTitle(text)}
             />
 
             <TextInput
-              style={styles.description}
+              style={styles.input}
               placeholder={"Add post description"}
               multiline={true}
               numberOfLines={10}
@@ -92,15 +92,7 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     marginVertical: 15,
   },
-  title: {
-    borderColor: "#a2a2a2",
-    borderRadius: 5,
-    borderWidth: 1,
-    padding: 6,
-    fontSize: 17,
-    marginVertical: 15,
-  },
-  description: {
+  input: {
     borderColor: "#a2a2a2",
     borderWidth: 1,
     padding: 6,

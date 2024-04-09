@@ -36,7 +36,7 @@ const MyPosts = () => {
               Loading...
             </Text>
           ) : (
-            <PostCard posts={posts} myPost={true} getUserPosts={getUserPosts} />
+            <PostCard posts={posts} myPostFlag={true} getUserPosts={getUserPosts} />
           )}
         </View>
       </ScrollView>
