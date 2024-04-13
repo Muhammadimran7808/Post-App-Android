@@ -5,6 +5,7 @@ import {
   deletePostController,
   getAllPostController,
   getAllUserPostController,
+  updatePostController,
 } from "../controllers/postController.js";
 
 const router = express.Router();
@@ -20,5 +21,8 @@ router.get("/user-posts", requireSignIn, getAllUserPostController);
 
 // DELETE POST
 router.delete("/delete-post/:id", requireSignIn, deletePostController);
+
+// UPDATE POST
+router.put("/update-post/:id", requireSignIn, updatePostController);
 
 export default router;

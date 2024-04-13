@@ -96,3 +96,26 @@ export const deletePostController = async (req, res) => {
     });
   }
 };
+
+export const updatePostController = async (req, res) => {
+  try {
+    const { title, description } = req.body;
+    // find post
+    const post = await postModel.findById({ _id: req.params.id });
+    // validation
+    if (!title || !description) {
+      return res.statue(500).send({
+        success: false,
+        message:"Please fill all field"
+      });
+    }
+
+    const updatedPost = await postModel.findOneAndUpdate({_id: req.params.id})
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      success: false,
+      message: "Server error",
+    });
+  }
+};

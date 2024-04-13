@@ -5,16 +5,24 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Model from "react-native-modal";
 
 const EditPostModal = ({ editModalVisible, setEditModalVisible, post }) => {
   // local state
   const [loading, setLoading] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
   // toggle model
   const toggleModal = () => {
     setEditModalVisible(!editModalVisible);
   };
+
+  useEffect(() => {
+    setTitle(post?.title);
+    setDescription(post?.description);
+  }, [post]);
 
   return (
     <View>
@@ -29,12 +37,11 @@ const EditPostModal = ({ editModalVisible, setEditModalVisible, post }) => {
         <View style={{ backgroundColor: "white", padding: 20 }}>
           <View>
             <Text style={styles.heading}>Update post</Text>
-            <Text>{JSON.stringify(post, null, 4)}</Text>
             <TextInput
               style={styles.input}
               placeholder={"Add post title"}
-              // value={title}
-              // onChangeText={(text) => setTitle(text)}
+              value={title}
+              onChangeText={(text) => setTitle(text)}
             />
 
             <TextInput
@@ -42,8 +49,8 @@ const EditPostModal = ({ editModalVisible, setEditModalVisible, post }) => {
               placeholder={"Add post description"}
               multiline={true}
               numberOfLines={8}
-              // value={description}
-              // onChangeText={(text) => setDescription(text)}
+              value={description}
+              onChangeText={ (text) => setDescription(text)}
             />
 
             <View style={styles.buttonContainer}>

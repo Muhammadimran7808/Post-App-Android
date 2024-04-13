@@ -27,7 +27,7 @@ const PostCard = ({ posts, myPostFlag, getUserPosts }) => {
   };
 
   // #region delete prompt
-  const deletePrompt = (id) => {
+  const deletePrompt =(id) => {
     Alert.alert(
       "Delete Post?",
       "Are you sure you want to delete this post?",
@@ -38,8 +38,8 @@ const PostCard = ({ posts, myPostFlag, getUserPosts }) => {
         },
         {
           text: "OK",
-          onPress: () => {
-            handleDeletePost(id);
+          onPress: async () => {
+            await handleDeletePost(id);
           },
         },
       ],
