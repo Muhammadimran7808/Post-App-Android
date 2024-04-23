@@ -19,7 +19,7 @@ const PostCard = ({ posts, myPostFlag, getUserPosts }) => {
   // local state
   const [isModalVisible, setModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [post, setPost] = useState({});
   // toggle model
   const toggleModal = () => {
@@ -27,7 +27,7 @@ const PostCard = ({ posts, myPostFlag, getUserPosts }) => {
   };
 
   // #region delete prompt
-  const deletePrompt =(id) => {
+  const deletePrompt = (id) => {
     Alert.alert(
       "Delete Post?",
       "Are you sure you want to delete this post?",
@@ -51,6 +51,7 @@ const PostCard = ({ posts, myPostFlag, getUserPosts }) => {
   const handleDeletePost = async (id) => {
     try {
       setLoading(true);
+      setModalVisible(false)
       const { data } = await axios.delete(`/post/delete-post/${id}`);
       alert(data?.message);
       getUserPosts();
@@ -75,6 +76,64 @@ const PostCard = ({ posts, myPostFlag, getUserPosts }) => {
             post={post}
           />
         )}
+
+        {/* model */}
+        <Model
+          isVisible={isModalVisible}
+          onSwipeComplete={() => toggleModal()}
+          swipeDirection="down"
+          onBackdropPress={() => toggleModal()}
+          hideModalContentWhileAnimating={true}
+          backdropOpacity={0.1}
+          style={{ margin: 0 }}
+        >
+          <View style={styles.modelContainer}>
+            {/*Model Options*/}
+            <View style={styles.modelContent}>
+              {/* ----------edit post--------- */}
+              <TouchableOpacity
+                style={styles.modelOptions}
+                onPress={() => {
+                  setEditModalVisible(true);
+                }}
+              >
+                <AntDesign name="edit" style={{ fontSize: 22 }} />
+                <Text style={{ fontSize: 16 }}>Edit</Text>
+              </TouchableOpacity>
+              {/* --------delete post---------- */}
+              <TouchableOpacity
+                style={styles.modelOptions}
+                onPress={() => {
+                  deletePrompt(post._id);
+                  // console.log(post._id);
+                }}
+              >
+                <AntDesign name="delete" style={{ fontSize: 22 }} />
+                <View>
+                  <Text style={{ fontSize: 16 }}>Delete</Text>
+                  <Text style={{ fontSize: 12, color: "gray" }}>
+                    This will delete your post permanently
+                  </Text>
+                </View>
+              </TouchableOpacity>
+              {/* ---------pin post--------- */}
+              <TouchableOpacity style={styles.modelOptions}>
+                <AntDesign name="pushpino" style={{ fontSize: 22 }} />
+                <Text style={{ fontSize: 16 }}>Pin post</Text>
+              </TouchableOpacity>
+              {/* save post */}
+              <TouchableOpacity style={styles.modelOptions}>
+                <AntDesign name="save" style={{ fontSize: 22 }} />
+                <View>
+                  <Text style={{ fontSize: 16 }}>Save post</Text>
+                  <Text style={{ fontSize: 12, color: "gray" }}>
+                    Add this to your saved items
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Model>
 
         {posts?.map((post, i) => (
           <View key={i} style={styles.postCard}>
@@ -111,82 +170,16 @@ const PostCard = ({ posts, myPostFlag, getUserPosts }) => {
                   >
                     {/* this dots show only on user's own post */}
                     {myPostFlag && (
-                      <TouchableOpacity onPress={toggleModal}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          toggleModal();
+                          setPost(post);
+                        }}
+                      >
                         <Entypo
                           name="dots-three-horizontal"
-                          style={{ fontSize: 22 }}
+                          style={{ fontSize: 22, paddingHorizontal: 10}}
                         />
-                        
-                        <Model
-                          isVisible={isModalVisible}
-                          onSwipeComplete={() => toggleModal()}
-                          swipeDirection="down"
-                          onBackdropPress={() => toggleModal()}
-                          hideModalContentWhileAnimating={true}
-                          backdropOpacity={0.1}
-                          style={{ margin: 0 }}
-                        >
-                          <View style={styles.modelContainer}>
-                            {/*Model Options*/}
-                            <View style={styles.modelContent}>
-                              {/* ----------edit post--------- */}
-                              <TouchableOpacity
-                                style={styles.modelOptions}
-                                onPress={() => {
-                                  setPost(post);
-                                  setEditModalVisible(true)}}
-                              >
-                                <AntDesign
-                                  name="edit"
-                                  style={{ fontSize: 22 }}
-                                />
-                                <Text style={{ fontSize: 16 }}>Edit</Text>
-                              </TouchableOpacity>
-                              {/* --------delete post---------- */}
-                              <TouchableOpacity
-                                style={styles.modelOptions}
-                                onPress={() => {
-                                  deletePrompt(post._id);
-                                  // console.log(post._id);
-                                }}
-                              >
-                                <AntDesign
-                                  name="delete"
-                                  style={{ fontSize: 22 }}
-                                />
-                                <View>
-                                  <Text style={{ fontSize: 16 }}>Delete</Text>
-                                  <Text style={{ fontSize: 12, color: "gray" }}>
-                                    This will delete your post permanently
-                                  </Text>
-                                </View>
-                              </TouchableOpacity>
-                              {/* ---------pin post--------- */}
-                              <TouchableOpacity style={styles.modelOptions}>
-                                <AntDesign
-                                  name="pushpino"
-                                  style={{ fontSize: 22 }}
-                                />
-                                <Text style={{ fontSize: 16 }}>Pin post</Text>
-                              </TouchableOpacity>
-                              {/* save post */}
-                              <TouchableOpacity style={styles.modelOptions}>
-                                <AntDesign
-                                  name="save"
-                                  style={{ fontSize: 22 }}
-                                />
-                                <View>
-                                  <Text style={{ fontSize: 16 }}>
-                                    Save post
-                                  </Text>
-                                  <Text style={{ fontSize: 12, color: "gray" }}>
-                                    Add this to your saved items
-                                  </Text>
-                                </View>
-                              </TouchableOpacity>
-                            </View>
-                          </View>
-                        </Model>
                       </TouchableOpacity>
                     )}
 
@@ -234,23 +227,6 @@ const PostCard = ({ posts, myPostFlag, getUserPosts }) => {
           </View>
         ))}
       </View>
-      {/* loading */}
-      {loading && (
-        <View
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(0,0,0,0.5)",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ color: "#fff", fontSize: 24 }}>Please wait...</Text>
-        </View>
-      )}
     </>
   );
 };
