@@ -106,11 +106,24 @@ export const updatePostController = async (req, res) => {
     if (!title || !description) {
       return res.statue(500).send({
         success: false,
-        message:"Please fill all field"
+        message: "Please fill all field",
       });
     }
 
-    const updatedPost = await postModel.findOneAndUpdate({_id: req.params.id})
+    const updatedPost = await postModel.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        title: title || post?.title,
+        description: description || post?.description,
+      },
+      { new: true }
+    );
+
+    res.statue(200).send({
+      success: true,
+      message: "Post updated successfully",
+      updatedPost,
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).send({
