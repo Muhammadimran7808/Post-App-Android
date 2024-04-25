@@ -74,6 +74,7 @@ const PostCard = ({ posts, myPostFlag, getUserPosts }) => {
             editModalVisible={editModalVisible}
             setEditModalVisible={setEditModalVisible}
             post={post}
+            getUserPosts={getUserPosts}
           />
         )}
 

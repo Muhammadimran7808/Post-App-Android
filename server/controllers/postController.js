@@ -104,7 +104,7 @@ export const updatePostController = async (req, res) => {
     const post = await postModel.findById({ _id: req.params.id });
     // validation
     if (!title || !description) {
-      return res.statue(500).send({
+      return res.status(500).send({
         success: false,
         message: "Please fill all field",
       });
@@ -119,7 +119,7 @@ export const updatePostController = async (req, res) => {
       { new: true }
     );
 
-    res.statue(200).send({
+    res.status(200).send({
       success: true,
       message: "Post updated successfully",
       updatedPost,

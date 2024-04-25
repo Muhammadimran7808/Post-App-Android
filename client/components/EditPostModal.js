@@ -7,8 +7,15 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Model from "react-native-modal";
+import axios from "axios";
 
-const EditPostModal = ({ editModalVisible, setEditModalVisible, post }) => {
+
+const EditPostModal = ({
+  editModalVisible,
+  setEditModalVisible,
+  post,
+  getUserPosts,
+}) => {
   // local state
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState("");
@@ -17,6 +24,28 @@ const EditPostModal = ({ editModalVisible, setEditModalVisible, post }) => {
   // toggle model
   const toggleModal = () => {
     setEditModalVisible(!editModalVisible);
+  };
+
+  // handle update
+  const handleUpdate = async () => {
+    try {
+      if (!title || !description) {
+        return alert("Please fill all field");
+      }
+      setLoading(true);
+      const { data } = await axios.put(`/post/update-post/${post?._id}`, {
+        title,
+        description,
+      });
+      alert(data?.message);
+      getUserPosts();
+      setLoading(false);
+      toggleModal();
+    } catch (error) {
+      alert(error.response.data.message || error.message);
+      console.log(error.response.data.message || error.message);
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -50,20 +79,21 @@ const EditPostModal = ({ editModalVisible, setEditModalVisible, post }) => {
               multiline={true}
               numberOfLines={8}
               value={description}
-              onChangeText={ (text) => setDescription(text)}
+              onChangeText={(text) => setDescription(text)}
             />
 
             <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.btn} onPress={""}>
-                <Text style={{ color: "#fff", fontSize: 16 }}>
-                  {loading ? "please wait..." : "Update Post"}
-                </Text>
-              </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.btn, { backgroundColor: "red" }]}
                 onPress={toggleModal}
               >
                 <Text style={{ color: "#fff", fontSize: 16 }}>Cancel</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.btn} onPress={handleUpdate}>
+                <Text style={{ color: "#fff", fontSize: 16 }}>
+                  {loading ? "please wait..." : "Update Post"}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -82,12 +112,12 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
   input: {
-    borderColor: "#a2a2a2",
-    borderWidth: 1,
+    backgroundColor: "#e2e2e2",
     padding: 6,
     fontSize: 17,
     marginVertical: 15,
     textAlignVertical: "top",
+    borderRadius: 5,
   },
   btn: {
     backgroundColor: "#000",

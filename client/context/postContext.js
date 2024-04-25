@@ -27,7 +27,7 @@ const PostProvider = ({ children }) => {
     fetchPost();
   }, []);
   return (
-    <PostContext.Provider value={[posts, setPosts]}>
+    <PostContext.Provider value={[posts, setPosts, fetchPost]}>
       {children}
     </PostContext.Provider>
   );
