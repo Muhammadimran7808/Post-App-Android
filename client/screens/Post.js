@@ -8,7 +8,7 @@ import {
   Alert,
 } from "react-native";
 import React, { useState } from "react";
-import FooterMenu from "../components/Menus/FooterMenu";
+import SecondaryHeader from "../components/Menus/SecondaryHeader";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import axios from "axios";
 import { usePost } from "../context/postContext";
@@ -46,6 +46,7 @@ const Post = ({ navigation }) => {
   };
   return (
     <>
+      <SecondaryHeader />
       <ScrollView>
         <View style={styles.container}>
           <View>
@@ -75,7 +76,6 @@ const Post = ({ navigation }) => {
           </View>
         </View>
       </ScrollView>
-      <FooterMenu />
     </>
   );
 };

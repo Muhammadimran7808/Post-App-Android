@@ -141,9 +141,9 @@ const PostCard = ({ posts, myPostFlag, getUserPosts }) => {
             {/* user details like name and post upload time */}
             <View style={styles.user}>
               <Image
-                style={{ width: 35, height: 35 }}
+                style={{ width: 35, height: 35, borderRadius: 100}}
                 source={{
-                  uri: "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
+                  uri: "https://i.stack.imgur.com/l60Hf.png",
                 }}
               />
               <View>
@@ -179,7 +179,7 @@ const PostCard = ({ posts, myPostFlag, getUserPosts }) => {
                       >
                         <Entypo
                           name="dots-three-horizontal"
-                          style={{ fontSize: 22, paddingHorizontal: 10}}
+                          style={{ fontSize: 22, paddingHorizontal: 10 }}
                         />
                       </TouchableOpacity>
                     )}
@@ -234,12 +234,12 @@ const PostCard = ({ posts, myPostFlag, getUserPosts }) => {
 
 const styles = StyleSheet.create({
   postContainer: {
-    paddingTop: 10,
+    paddingBottom: 10,
   },
   postCard: {
     padding: 10,
     backgroundColor: "#f9f9f9",
-    marginVertical: 4,
+    marginTop: 10,
   },
   user: {
     flexDirection: "row",

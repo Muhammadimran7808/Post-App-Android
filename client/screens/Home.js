@@ -6,7 +6,7 @@ import {
   RefreshControl,
 } from "react-native";
 import React, { useCallback, useState } from "react";
-import FooterMenu from "../components/Menus/FooterMenu";
+import SecondaryHeader from "../components/Menus/SecondaryHeader";
 import { usePost } from "../context/postContext";
 import PostCard from "../components/PostCard";
 
@@ -26,6 +26,7 @@ const Home = () => {
   // console.log(fetchPost())
   return (
     <>
+      <SecondaryHeader />
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -35,7 +36,6 @@ const Home = () => {
           <PostCard posts={posts} />
         </View>
       </ScrollView>
-      <FooterMenu />
     </>
   );
 };

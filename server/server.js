@@ -29,6 +29,11 @@ app.get("/", (req, res) => {
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/post", postRoutes)
 
+// root route
+app.get("/", (req, res) => {
+  res.send("Server is running");
+});
+
 
 // port
 const port = process.env.PORT || 8080;

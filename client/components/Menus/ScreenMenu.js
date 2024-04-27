@@ -16,14 +16,24 @@ const ScreenMenu = () => {
   const authenticatedUser = state?.user && state?.token;
 
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator
+      initialRouteName="Login"
+      screenOptions={{
+        headerShadowVisible: false, // Remove header shadow
+      }}
+    >
       {authenticatedUser ? (
         <>
           <Stack.Screen
             name="Home"
             component={Home}
             options={{
-              title: "Full Stack App",
+              title: "facebook",
+              headerTitleStyle: {
+                color: "#0866FF",
+                fontSize: 30,
+                fontWeight: "900",
+              },
               headerRight: () => <HeaderMenu />,
             }}
           />

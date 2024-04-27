@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
-import FooterMenu from "../components/Menus/FooterMenu";
+import SecondaryHeader from "../components/Menus/SecondaryHeader";
 import axios from "axios";
 import PostCard from "../components/PostCard";
 
@@ -29,6 +29,7 @@ const MyPosts = () => {
 
   return (
     <>
+      <SecondaryHeader />
       <ScrollView>
         <View style={styles.container}>
           {loading ? (
@@ -40,7 +41,6 @@ const MyPosts = () => {
           )}
         </View>
       </ScrollView>
-      <FooterMenu />
     </>
   );
 };
@@ -48,7 +48,7 @@ const MyPosts = () => {
 const styles = StyleSheet.create({
   container: {
     height: "100%",
-    padding: 10,
+    backgroundColor: "lightgray",
   },
 });
 

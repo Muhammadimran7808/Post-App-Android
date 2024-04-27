@@ -3,83 +3,89 @@ import React from "react";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
-const FooterMenu = () => {
+const SecondaryHeader = () => {
   const navigation = useNavigation();
   const route = useRoute();
 
   return (
-    <View style={styles.footer}>
+    <View style={styles.header}>
       <TouchableOpacity
-        style={{ paddingHorizontal: 8 }}
+        style={{
+          paddingHorizontal: 10,
+          borderBottomWidth: route.name === "Home" ? 2 : 0,
+          borderBottomColor: route.name === "Home" ? "#0866FF" : "white",
+        }}
         onPress={() => navigation.navigate("Home")}
       >
         <FontAwesome5
           name="home"
           style={styles.icon}
-          color={route.name === "Home" ? "white" : "#d1d1d1"}
+          color={route.name === "Home" ? "#0866FF" : "black"}
         />
-        <Text style={styles.footerItem}>Home</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={{ paddingHorizontal: 8 }}
+        style={{
+          paddingHorizontal: 10,
+          borderBottomWidth: route.name === "Post" ? 2 : 0,
+          borderBottomColor: route.name === "Post" ? "#0866FF" : "white",
+        }}
         onPress={() => navigation.navigate("Post")}
       >
         <FontAwesome5
           name="plus-square"
           style={styles.icon}
-          color={route.name === "Post" ? "white" : "#d1d1d1"}
+          color={route.name === "Post" ? "#0866FF" : "black"}
         />
-        <Text style={styles.footerItem}>Post</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={{ paddingHorizontal: 8 }}
+        style={{
+          paddingHorizontal: 10,
+          borderBottomWidth: route.name === "MyPosts" ? 2 : 0,
+          borderBottomColor: route.name === "MyPosts" ? "#0866FF" : "white",
+        }}
         onPress={() => navigation.navigate("MyPosts")}
       >
         <FontAwesome5
           name="list"
           style={styles.icon}
-          color={route.name === "MyPosts" ? "white" : "#d1d1d1"}
+          color={route.name === "MyPosts" ? "#0866FF" : "black"}
         />
-        <Text style={styles.footerItem}>My Posts</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={{ paddingHorizontal: 8 }}
+        style={{
+          paddingHorizontal: 10,
+          borderBottomWidth: route.name === "Account" ? 2 : 0,
+          borderBottomColor: route.name === "Account" ? "#0866FF" : "white",
+        }}
         onPress={() => navigation.navigate("Account")}
       >
         <FontAwesome5
           name="user"
           style={styles.icon}
-          color={route.name === "Account" ? "white" : "#d1d1d1"}
+          color={route.name === "Account" ? "#0866FF" : "black"}
         />
-        <Text style={styles.footerItem}>Account</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  footer: {
-    position: "absolute",
-    bottom: 0,
+  header: {
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-around",
-    backgroundColor: "#F27676",
-    paddingVertical: 8,
-  },
-
-  footerItem: {
-    color: "white",
-    fontSize: 13,
+    backgroundColor: "#ffffff",
+    borderBottomWidth: 1,
+    borderBottomColor: "lightgray",
   },
 
   icon: {
-    marginBottom: 3,
+    padding: 5,
     alignSelf: "center",
-    fontSize: 22,
+    fontSize: 25,
   },
 });
-export default FooterMenu;
+export default SecondaryHeader;

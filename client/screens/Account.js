@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { useAuth } from "../context/authContext";
-import FooterMenu from "../components/Menus/FooterMenu";
+import SecondaryHeader from "../components/Menus/SecondaryHeader";
 import axios from "axios";
 
 const Account = () => {
@@ -44,14 +44,15 @@ const Account = () => {
   };
   return (
     <>
+      <SecondaryHeader />
       <ScrollView>
         <View style={styles.container}>
           {/* Profile image */}
           <View style={{ alignItems: "center", marginTop: 10 }}>
             <Image
-              style={{ width: 200, height: 200 }}
+              style={{ width: 200, height: 200, borderRadius: 100}}
               source={{
-                uri: "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png",
+                uri: "https://i.stack.imgur.com/l60Hf.png",
               }}
             />
             <Text style={{ color: "red", fontSize: 12 }}>
@@ -97,7 +98,6 @@ const Account = () => {
           </View>
         </View>
       </ScrollView>
-      <FooterMenu />
     </>
   );
 };

@@ -14,7 +14,7 @@ const AuthProvider = ({ children }) => {
   });
 
   // default axios setting
-  axios.defaults.baseURL = "http://10.123.56.44:8080/api/v1";
+  axios.defaults.baseURL = "https://post-app-server.onrender.com/api/v1";
   axios.defaults.headers.common["Authorization"] = `Bearer ${state?.token}`
 
   //get intial local storage data
