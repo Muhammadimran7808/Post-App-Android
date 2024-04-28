@@ -5,11 +5,12 @@ const PostContext = createContext();
 
 const PostProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   //   get post intial time
   const fetchPost = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get("/post/all-posts");
       if (data?.success) {
         setPosts(data?.posts);
@@ -27,7 +28,7 @@ const PostProvider = ({ children }) => {
     fetchPost();
   }, []);
   return (
-    <PostContext.Provider value={[posts, setPosts, fetchPost]}>
+    <PostContext.Provider value={{ posts, setPosts, loading, fetchPost }}>
       {children}
     </PostContext.Provider>
   );

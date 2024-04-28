@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import SecondaryHeader from "../components/Menus/SecondaryHeader";
 import axios from "axios";
 import PostCard from "../components/PostCard";
+import LoadingSkeleton from "../components/LoadingSkeleton";
 
 const MyPosts = () => {
   // local states
@@ -18,7 +19,7 @@ const MyPosts = () => {
       setLoading(false);
     } catch (error) {
       console.error(error);
-     alert(error.response.data.message);
+      alert(error.response.data.message);
       setLoading(false);
     }
   };
@@ -33,11 +34,13 @@ const MyPosts = () => {
       <ScrollView>
         <View style={styles.container}>
           {loading ? (
-            <Text style={{ textAlign: "center", marginTop: 250, fontSize: 20 }}>
-              Loading...
-            </Text>
+            <LoadingSkeleton />
           ) : (
-            <PostCard posts={posts} myPostFlag={true} getUserPosts={getUserPosts} />
+            <PostCard
+              posts={posts}
+              myPostFlag={true}
+              getUserPosts={getUserPosts}
+            />
           )}
         </View>
       </ScrollView>

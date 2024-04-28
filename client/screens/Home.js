@@ -9,21 +9,21 @@ import React, { useCallback, useState } from "react";
 import SecondaryHeader from "../components/Menus/SecondaryHeader";
 import { usePost } from "../context/postContext";
 import PostCard from "../components/PostCard";
+import LoadingSkeleton from "../components/LoadingSkeleton";
 
 const Home = () => {
-  const [posts, fetchPost] = usePost();
+  const {posts, loading, fetchPost} = usePost();
   const [refreshing, setRefreshing] = useState(false);
 
   // pull to refresh
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    // fetchPost(); 
+    fetchPost();
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
   }, []);
 
-  // console.log(fetchPost())
   return (
     <>
       <SecondaryHeader />
@@ -33,7 +33,7 @@ const Home = () => {
         }
       >
         <View style={styles.container}>
-          <PostCard posts={posts} />
+          {loading ? <LoadingSkeleton/> : <PostCard posts={posts} />}
         </View>
       </ScrollView>
     </>

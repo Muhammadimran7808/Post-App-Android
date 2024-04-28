@@ -15,7 +15,7 @@ import { usePost } from "../context/postContext";
 
 const Post = ({ navigation }) => {
   // global state
-  const [posts, setPosts] = usePost();
+  const {posts, setPosts, fetchPost} = usePost();
   // local state
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -38,6 +38,7 @@ const Post = ({ navigation }) => {
       setDescription("");
       setLoading(false);
       navigation.navigate("Home");
+      fetchPost();
     } catch (error) {
       alert(error.response.data.message || error.meesage);
       console.log(error.response.data.message || error.meesage);

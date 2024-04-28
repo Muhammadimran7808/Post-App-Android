@@ -141,7 +141,7 @@ const PostCard = ({ posts, myPostFlag, getUserPosts }) => {
             {/* user details like name and post upload time */}
             <View style={styles.user}>
               <Image
-                style={{ width: 35, height: 35, borderRadius: 100}}
+                style={{ width: 40, height: 40, borderRadius: 100}}
                 source={{
                   uri: "https://i.stack.imgur.com/l60Hf.png",
                 }}
