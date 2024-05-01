@@ -1,11 +1,15 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { useAuth } from "./authContext";
 
 const PostContext = createContext();
 
 const PostProvider = ({ children }) => {
+  const [state] = useAuth();
+  const { user } = state;
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [profilePicture, setProfilePicture] = useState({});
 
   //   get post intial time
   const fetchPost = async () => {
@@ -24,11 +28,28 @@ const PostProvider = ({ children }) => {
     }
   };
 
+  // get profile picture
+  const getProfilePicture = async () => {
+    try {
+      const { data } = await axios.get(`/auth/profile-picture`);
+      if (data?.success) {
+        setProfilePicture(data?.profilePicture);         
+      } else {
+        alert("Some thing went wrong");
+      }
+    } catch (error) {
+      console.log(error.response.data.message || error.message);
+      alert(error.response.data.message);
+    }
+  };
   useEffect(() => {
     fetchPost();
+    getProfilePicture();
   }, []);
   return (
-    <PostContext.Provider value={{ posts, setPosts, loading, fetchPost }}>
+    <PostContext.Provider
+      value={{ posts, setPosts, loading, fetchPost, profilePicture }}
+    >
       {children}
     </PostContext.Provider>
   );

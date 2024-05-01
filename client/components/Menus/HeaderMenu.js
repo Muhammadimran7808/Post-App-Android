@@ -3,9 +3,11 @@ import React from "react";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { useAuth } from "../../context/authContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { usePost } from "../../context/postContext";
 
 const HeaderMenu = () => {
   const [state, setState] = useAuth();
+  const { setPosts } = usePost();
 
   //   logout
   const handleLogout = async () => {
@@ -15,11 +17,12 @@ const HeaderMenu = () => {
           text: "Yes",
           onPress: async () => {
             setState({ user: null, token: "" });
+            setPosts([]);
             await AsyncStorage.removeItem("@auth");
             alert("Logout Successfully");
           },
         },
-        { text: "Cancel",},
+        { text: "Cancel" },
       ]);
     } catch (error) {
       console.log(error);

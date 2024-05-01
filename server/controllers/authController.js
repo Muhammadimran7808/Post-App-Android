@@ -3,6 +3,8 @@ import { comparePassword, hashPassword } from "../helpers/authHelper.js";
 import JWT from "jsonwebtoken";
 import { expressjwt } from "express-jwt";
 import dotenv from "dotenv";
+import { getDataUri } from "../utils/features.js";
+import cloudinary from "cloudinary";
 
 dotenv.config();
 
@@ -97,6 +99,7 @@ export const loginController = async (req, res) => {
     });
     // undefined password
     user.password = undefined;
+    user.profilePicture = undefined;
     res.status(200).send({
       success: true,
       message: "login successfully",
@@ -146,6 +149,65 @@ export const updateProfileController = async (req, res) => {
     res.status(500).send({
       success: false,
       message: "Error in updating profile",
+      error,
+    });
+  }
+};
+
+// update profile pic controller
+export const updateProfilePicController = async (req, res) => {
+  try {
+    // find user
+    const user = await userModel.findById(req.auth._id);
+
+    // file get from client photo
+    const file = getDataUri(req.file);
+
+    // delete existing picture
+    await cloudinary.v2.uploader.destroy(user.profilePicture.public_id);
+    console.log(user.profilePicture.public_id);
+
+    // update picture
+    const result = await cloudinary.v2.uploader.upload(file);
+
+    user.profilePicture = {
+      public_id: result.public_id,
+      url: result.secure_url,
+    };
+    // save user
+    const updatedUser = await user.save();
+
+    res.status(200).send({
+      success: true,
+      message: "Profile picture updated",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in updating profile picture",
+      error,
+    });
+  }
+};
+
+// get user profile controller
+export const getProfilePicController = async (req, res) => {
+  try {
+    // find user
+    const user = await userModel.findById(req.auth._id);
+
+    const profilePicture  = user.profilePicture;
+    res.status(200).send({
+      success: true,
+      message: "Profile picture",
+      profilePicture,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in getting profile picture",
       error,
     });
   }

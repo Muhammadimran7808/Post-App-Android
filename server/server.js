@@ -6,12 +6,21 @@ import colors from "colors";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoute.js";
 import postRoutes from "./routes/postRoutes.js";
+import cloudinary from "cloudinary";
 
 // configure env
 dotenv.config();
 
 // database connection
 connectDB();
+
+// cloudinary config
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDAIRY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 
 // rest object
 const app = express();

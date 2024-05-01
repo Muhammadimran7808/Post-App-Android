@@ -10,19 +10,19 @@ const AuthProvider = ({ children }) => {
   // global state
   const [state, setState] = useState({
     user: null,
-  token: "",
+    token: "",
   });
 
   // default axios setting
   axios.defaults.baseURL = "https://post-app-server.onrender.com/api/v1";
-  axios.defaults.headers.common["Authorization"] = `Bearer ${state?.token}`
+  axios.defaults.headers.common["Authorization"] = `Bearer ${state?.token}`;
 
   //get intial local storage data
   useEffect(() => {
     const getLocalStorageData = async () => {
       const data = await AsyncStorage.getItem("@auth");
       if (data) {
-        const parseData = JSON.parse(data);
+        const parseData = await JSON.parse(data);
         // console.log(parseData);
         setState({ ...state, user: parseData?.user, token: parseData?.token });
       }

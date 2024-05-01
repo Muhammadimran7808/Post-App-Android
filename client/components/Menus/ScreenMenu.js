@@ -16,71 +16,71 @@ const ScreenMenu = () => {
   const authenticatedUser = state?.user && state?.token;
 
   return (
-    <Stack.Navigator
-      initialRouteName="Login"
-      screenOptions={{
-        headerShadowVisible: false, // Remove header shadow
-      }}
-    >
-      {authenticatedUser ? (
-        <>
-          <Stack.Screen
-            name="Home"
-            component={Home}
-            options={{
-              title: "facebook",
-              headerTitleStyle: {
-                color: "#0866FF",
-                fontSize: 30,
-                fontWeight: "900",
-              },
-              headerRight: () => <HeaderMenu />,
-            }}
-          />
+      <Stack.Navigator
+        initialRouteName="Login"
+        screenOptions={{
+          headerShadowVisible: false, // Remove header shadow
+        }}
+      >
+        {authenticatedUser ? (
+          <>
+            <Stack.Screen
+              name="Home"
+              component={Home}
+              options={{
+                title: "facebook",
+                headerTitleStyle: {
+                  color: "#0866FF",
+                  fontSize: 30,
+                  fontWeight: "900",
+                },
+                headerRight: () => <HeaderMenu />,
+              }}
+            />
 
-          <Stack.Screen
-            name="Post"
-            component={Post}
-            options={{
-              headerBackTitle: "back",
-              headerRight: () => <HeaderMenu />,
-            }}
-          />
+            <Stack.Screen
+              name="Post"
+              component={Post}
+              options={{
+                headerBackTitle: "back",
+                headerRight: () => <HeaderMenu />,
+              }}
+            />
 
-          <Stack.Screen
-            name="MyPosts"
-            component={MyPosts}
-            options={{
-              headerBackTitle: "back",
-              headerRight: () => <HeaderMenu />,
-            }}
-          />
+            <Stack.Screen
+              name="MyPosts"
+              component={MyPosts}
+              options={{
+                headerBackTitle: "back",
+                headerRight: () => <HeaderMenu />,
+              }}
+            />
 
-          <Stack.Screen
-            name="Account"
-            component={Account}
-            options={{
-              headerBackTitle: "back",
-              headerRight: () => <HeaderMenu />,
-            }}
-          />
-        </>
-      ) : (
-        <>
-          <Stack.Screen
-            name="Register"
-            component={Register}
-            options={{ headerShown: false }}
-          />
+            <Stack.Screen
+              name="Account"
+              component={Account}
+              options={{
+                headerBackTitle: "back",
+                headerRight: () => <HeaderMenu />,
+              }}
+            />
+          </>
+        ) : (
+          <>
+            <Stack.Screen
+              name="Register"
+              component={Register}
+              options={{ headerShown: false }}
+            />
 
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ headerShown: false }}
-          />
-        </>
-      )}
-    </Stack.Navigator>
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{ headerShown: false }}
+            />
+          </>
+        )}
+      </Stack.Navigator>
   );
 };
 

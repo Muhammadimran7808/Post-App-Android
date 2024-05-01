@@ -1,16 +1,18 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
+import { usePost } from "../context/postContext";
 
 const WhatsOnYourMind = () => {
   const navigation = useNavigation();
+  const {profilePicture} = usePost();
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.navigate("Account")}>
         <Image
           style={{ width: 40, height: 40, borderRadius: 100 }}
           source={{
-            uri: "https://i.stack.imgur.com/l60Hf.png",
+            uri: profilePicture?.url,
           }}
         />
       </TouchableOpacity>

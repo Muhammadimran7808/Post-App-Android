@@ -11,11 +11,13 @@ import React, { useState } from "react";
 import { useAuth } from "../context/authContext";
 import SecondaryHeader from "../components/Menus/SecondaryHeader";
 import axios from "axios";
+import { usePost } from "../context/postContext";
 
 const Account = () => {
   // global state
   const [state, setState] = useAuth();
-  const { user, token } = state;
+  const { profilePicture } = usePost();
+  const { user } = state;
   // local state
   const [name, setName] = useState(user?.name);
   const [email] = useState(user?.email);
@@ -42,6 +44,7 @@ const Account = () => {
     }
     setLoading(false);
   };
+
   return (
     <>
       <SecondaryHeader />
@@ -50,9 +53,9 @@ const Account = () => {
           {/* Profile image */}
           <View style={{ alignItems: "center", marginTop: 10 }}>
             <Image
-              style={{ width: 200, height: 200, borderRadius: 100}}
+              style={{ width: 200, height: 200, borderRadius: 100 }}
               source={{
-                uri: "https://i.stack.imgur.com/l60Hf.png",
+                uri: profilePicture?.url,
               }}
             />
             <Text style={{ color: "red", fontSize: 12 }}>

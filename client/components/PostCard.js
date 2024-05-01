@@ -51,7 +51,7 @@ const PostCard = ({ posts, myPostFlag, getUserPosts }) => {
   const handleDeletePost = async (id) => {
     try {
       setLoading(true);
-      setModalVisible(false)
+      setModalVisible(false);
       const { data } = await axios.delete(`/post/delete-post/${id}`);
       alert(data?.message);
       getUserPosts();
@@ -64,7 +64,6 @@ const PostCard = ({ posts, myPostFlag, getUserPosts }) => {
     }
   };
   //#endregion
-
   return (
     <>
       <View style={styles.postContainer}>
@@ -141,9 +140,9 @@ const PostCard = ({ posts, myPostFlag, getUserPosts }) => {
             {/* user details like name and post upload time */}
             <View style={styles.user}>
               <Image
-                style={{ width: 40, height: 40, borderRadius: 100}}
+                style={{ width: 40, height: 40, borderRadius: 100 }}
                 source={{
-                  uri: "https://i.stack.imgur.com/l60Hf.png",
+                  uri: post?.postedBy?.profilePicture?.url,
                 }}
               />
               <View>
