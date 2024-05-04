@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "client",
-    "slug": "client",
+    "name": "facebook",
+    "slug": "facebook",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/facebook.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/facebook.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

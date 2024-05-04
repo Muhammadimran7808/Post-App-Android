@@ -4,6 +4,7 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { useAuth } from "../../context/authContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { usePost } from "../../context/postContext";
+import { NativeModules } from "react-native";
 
 const HeaderMenu = () => {
   const [state, setState] = useAuth();
@@ -20,6 +21,7 @@ const HeaderMenu = () => {
             setPosts([]);
             await AsyncStorage.removeItem("@auth");
             alert("Logout Successfully");
+            NativeModules.DevSettings.reload();
           },
         },
         { text: "Cancel" },

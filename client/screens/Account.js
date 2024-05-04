@@ -12,6 +12,9 @@ import { useAuth } from "../context/authContext";
 import SecondaryHeader from "../components/Menus/SecondaryHeader";
 import axios from "axios";
 import { usePost } from "../context/postContext";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import { launchCamera, launchImageLibrary } from "react-native-image-picker";
+
 
 const Account = () => {
   // global state
@@ -45,6 +48,16 @@ const Account = () => {
     setLoading(false);
   };
 
+  // select picture
+  const selectPicture = async () => {
+    const result = await launchImageLibrary({
+      mediaType: "photo",
+      maxHeight: 200,
+      maxWidth: 200,
+    });
+    console.log(result);
+  };
+
   return (
     <>
       <SecondaryHeader />
@@ -58,9 +71,12 @@ const Account = () => {
                 uri: profilePicture?.url,
               }}
             />
-            <Text style={{ color: "red", fontSize: 12 }}>
-              Currently you can only change your name and password*
-            </Text>
+            <TouchableOpacity
+              style={styles.camera}
+              onPress={() => selectPicture()}
+            >
+              <FontAwesome5 name="camera" size={22} color={"#fff"} />
+            </TouchableOpacity>
           </View>
 
           {/* User details */}
@@ -141,6 +157,15 @@ const styles = StyleSheet.create({
   btnText: {
     color: "white",
     fontSize: 16,
+  },
+  camera: {
+    position: "absolute",
+    bottom: 10,
+    right: "22%",
+    backgroundColor: "#00000080",
+    padding: 7,
+    borderRadius: 50,
+    color: "white",
   },
 });
 

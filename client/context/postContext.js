@@ -6,7 +6,6 @@ const PostContext = createContext();
 
 const PostProvider = ({ children }) => {
   const [state] = useAuth();
-  const { user } = state;
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [profilePicture, setProfilePicture] = useState({});
@@ -33,7 +32,7 @@ const PostProvider = ({ children }) => {
     try {
       const { data } = await axios.get(`/auth/profile-picture`);
       if (data?.success) {
-        setProfilePicture(data?.profilePicture);         
+        setProfilePicture(data?.profilePicture);
       } else {
         alert("Some thing went wrong");
       }
@@ -44,8 +43,13 @@ const PostProvider = ({ children }) => {
   };
   useEffect(() => {
     fetchPost();
-    getProfilePicture();
   }, []);
+
+  useEffect(() => {
+    if (state?.token) {
+      getProfilePicture();
+    }
+  }, [state?.token]);
   return (
     <PostContext.Provider
       value={{ posts, setPosts, loading, fetchPost, profilePicture }}
