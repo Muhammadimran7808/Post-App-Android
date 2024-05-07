@@ -13,19 +13,20 @@ import SecondaryHeader from "../components/Menus/SecondaryHeader";
 import axios from "axios";
 import { usePost } from "../context/postContext";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-import { launchCamera, launchImageLibrary } from "react-native-image-picker";
-
+import * as ImagePicker from "expo-image-picker";
 
 const Account = () => {
   // global state
   const [state, setState] = useAuth();
-  const { profilePicture } = usePost();
+  const { profilePicture, getProfilePicture } = usePost();
   const { user } = state;
   // local state
   const [name, setName] = useState(user?.name);
   const [email] = useState(user?.email);
   const [password, setPassword] = useState(user?.password);
   const [loading, setLoading] = useState(false);
+
+  const [image, setImage] = useState();
 
   // update profile
   const updateProfile = async () => {
@@ -50,12 +51,52 @@ const Account = () => {
 
   // select picture
   const selectPicture = async () => {
-    const result = await launchImageLibrary({
-      mediaType: "photo",
-      maxHeight: 200,
-      maxWidth: 200,
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
     });
-    console.log(result);
+    const imageData = result?.assets[0];
+    console.log(imageData);
+    if (!result?.canceled) {
+      console.log("jjjjjjjj");
+      setImage(imageData);
+      console.log("-------", image);
+      updateProfilePicture();
+    }
+  };
+
+  // update profile picture
+  const updateProfilePicture = async () => {
+    setLoading(true);
+    try {
+      console.log(image);
+      var formdata = new FormData();
+      formdata.append("file", {
+        uri: image?.uri,
+        type: "image/jpeg",
+        name: image?.uri.split("/").pop(),
+      });
+
+      const { data } = await axios.put("/auth/update-picture", formdata, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (data?.success) {
+        getProfilePicture();
+        console.log("yesssss");
+      }
+      alert(data?.message);
+    } catch (error) {
+      console.log(error);
+      alert(error.response.data.message);
+      console.log("jiiiiiiiiiiiiiiiiii");
+    }
+    setLoading(false);
   };
 
   return (

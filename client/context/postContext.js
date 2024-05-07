@@ -52,7 +52,14 @@ const PostProvider = ({ children }) => {
   }, [state?.token]);
   return (
     <PostContext.Provider
-      value={{ posts, setPosts, loading, fetchPost, profilePicture }}
+      value={{
+        posts,
+        setPosts,
+        loading,
+        fetchPost,
+        profilePicture,
+        getProfilePicture,
+      }}
     >
       {children}
     </PostContext.Provider>

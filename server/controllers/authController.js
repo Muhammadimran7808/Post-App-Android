@@ -160,15 +160,16 @@ export const updateProfilePicController = async (req, res) => {
     // find user
     const user = await userModel.findById(req.auth._id);
 
+    const { file } = req.files;
+
     // file get from client photo
-    const file = getDataUri(req.file);
+    const picture = getDataUri(file[0]);
 
     // delete existing picture
     await cloudinary.v2.uploader.destroy(user.profilePicture.public_id);
-    console.log(user.profilePicture.public_id);
 
     // update picture
-    const result = await cloudinary.v2.uploader.upload(file);
+    const result = await cloudinary.v2.uploader.upload(picture);
 
     user.profilePicture = {
       public_id: result.public_id,
@@ -191,13 +192,13 @@ export const updateProfilePicController = async (req, res) => {
   }
 };
 
-// get user profile controller
+// get user profile pic controller
 export const getProfilePicController = async (req, res) => {
   try {
     // find user
     const user = await userModel.findById(req.auth._id);
 
-    const profilePicture  = user.profilePicture;
+    const profilePicture = user.profilePicture;
     res.status(200).send({
       success: true,
       message: "Profile picture",
