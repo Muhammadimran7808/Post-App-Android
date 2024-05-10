@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/authContext";
 import SecondaryHeader from "../components/Menus/SecondaryHeader";
 import axios from "axios";
@@ -18,7 +18,7 @@ import * as ImagePicker from "expo-image-picker";
 const Account = () => {
   // global state
   const [state, setState] = useAuth();
-  const { profilePicture, getProfilePicture } = usePost();
+  const { profilePicture, getProfilePicture, fetchPost } = usePost();
   const { user } = state;
   // local state
   const [name, setName] = useState(user?.name);
@@ -58,13 +58,9 @@ const Account = () => {
       aspect: [4, 4],
       quality: 1,
     });
-    const imageData = result?.assets[0];
-    console.log(imageData);
     if (!result?.canceled) {
-      console.log("jjjjjjjj");
+      const imageData = result?.assets[0];
       setImage(imageData);
-      console.log("-------", image);
-      updateProfilePicture();
     }
   };
 
@@ -72,11 +68,10 @@ const Account = () => {
   const updateProfilePicture = async () => {
     setLoading(true);
     try {
-      console.log(image);
-      var formdata = new FormData();
+      const formdata = new FormData();
       formdata.append("file", {
         uri: image?.uri,
-        type: "image/jpeg",
+        type: image?.mimeType,
         name: image?.uri.split("/").pop(),
       });
 
@@ -88,16 +83,21 @@ const Account = () => {
 
       if (data?.success) {
         getProfilePicture();
-        console.log("yesssss");
+        fetchPost();
       }
       alert(data?.message);
     } catch (error) {
-      console.log(error);
       alert(error.response.data.message);
-      console.log("jiiiiiiiiiiiiiiiiii");
+      setLoading(false);
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    if (image) {
+      updateProfilePicture();
+    }
+  }, [image]);
 
   return (
     <>
