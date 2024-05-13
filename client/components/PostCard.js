@@ -211,18 +211,18 @@ const PostCard = ({ posts, myPostFlag, getUserPosts }) => {
                 marginTop: 10,
               }}
             >
-              <View style={{ flexDirection: "row", gap: 10 }}>
+              <TouchableOpacity style={styles.reaction}>
                 <AntDesign name="like2" style={{ fontSize: 22 }} />
                 <Text>Like</Text>
-              </View>
-              <View style={{ flexDirection: "row", gap: 10 }}>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.reaction}>
                 <AntDesign name="message1" style={{ fontSize: 22 }} />
                 <Text>Comment</Text>
-              </View>
-              <View style={{ flexDirection: "row", gap: 10 }}>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.reaction}>
                 <AntDesign name="sharealt" style={{ fontSize: 22 }} />
                 <Text>Share</Text>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
         ))}
@@ -282,6 +282,11 @@ const styles = StyleSheet.create({
     gap: 10,
     alignItems: "center",
     paddingVertical: 10,
+  },
+  reaction: {
+    flexDirection: "row",
+    gap: 7,
+    alignItems: "center",
   },
 });
 
