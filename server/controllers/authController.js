@@ -12,6 +12,7 @@ dotenv.config();
 export const requireSignIn = expressjwt({
   secret: process.env.JWT_SECRET,
   algorithms: ["HS256"],
+  expiresIn: "60d",
 });
 
 // --------registor controller-------
